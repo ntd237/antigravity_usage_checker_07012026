@@ -15,7 +15,7 @@ setup(
     ],
     entry_points={
         "console_scripts": [
-            "agusage=main:main",
+            "agcheck=src.cli:main",
         ],
     },
     python_requires=">=3.8",
