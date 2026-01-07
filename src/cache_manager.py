@@ -1,7 +1,5 @@
 """
 Cache Manager Module - Quản lý offline cache
-
-Author: ntd237
 """
 
 import json

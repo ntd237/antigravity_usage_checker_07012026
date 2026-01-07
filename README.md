@@ -4,21 +4,24 @@ CLI tool để kiểm tra mức sử dụng (quota) của các AI models trong A
 
 ![License](https://img.shields.io/badge/license-MIT-blue.svg)
 ![Python](https://img.shields.io/badge/python-3.8+-blue.svg)
+![Platform](https://img.shields.io/badge/platform-Windows%20|%20macOS%20|%20Linux-lightgrey.svg)
 
 ## ✨ Features
 
-- 🔍 **Auto-detect** Antigravity server - Tự động tìm và kết nối đến Antigravity language server
-- 🎨 **Color-coded display** - Màu xanh/vàng/đỏ dựa trên % quota còn lại (>50% / 20-50% / <20%)
-- 📊 **Unicode progress bars** - Hiển thị progress bars đẹp mắt với `█` và `░`
+- 🔍 **Auto-detect** - Tự động tìm Antigravity language server bằng PowerShell/psutil
+- 🔐 **Real API connection** - Kết nối thực tế đến Antigravity API với CSRF token
+- 🎨 **Color-coded display** - Màu xanh/vàng/đỏ dựa trên % quota còn lại
+- 📊 **Unicode progress bars** - Hiển thị progress bars với `█` và `░`
 - 🧮 **Smart quota calculation** - Tự động detect và deduplicate shared quota pools
-- ⏱️ **Reset time countdown** - Hiển thị thời gian reset quota (e.g., "4h 56m")
-- 💾 **Offline cache** - Hoạt động ngay cả khi Antigravity không chạy (sử dụng cached data)
-- ⚡ **Fast & lightweight** - Python CLI tool đơn giản, không dependencies phức tạp
+- ⏱️ **Reset time countdown** - Hiển thị thời gian reset quota (e.g., "2h 24m")
+- 💾 **Offline cache** - Hoạt động ngay cả khi Antigravity không chạy
+- ⚡ **Fast & lightweight** - Python CLI tool đơn giản
 
 ## 📋 Requirements
 
-- Python 3.8 trở lên
-- Antigravity IDE (để fetch live quota data)
+- Python 3.8+
+- Antigravity IDE đang chạy (để fetch live quota data)
+- Windows: PowerShell (để detect language server)
 
 ## 🔧 Installation
 
@@ -63,19 +66,19 @@ agcheck
 📡 Fetching quota data...
 
 🚀 Antigravity Usage Monitor
-──────────────────────────────────────────────────────────────────────
-Model                  Used Limit   Left Progress       Reset
-──────────────────────────────────────────────────────────────────────
-Gemini 3 Pro (Low)        2   100     98 ░░░░░░░░░░  2% 4h 56m
-Gemini 3 Flash            0   100    100 ░░░░░░░░░░  0% 4h 59m
-Claude Sonnet 4.5         2   100     98 ░░░░░░░░░░  2% 3h 32m
-Claude Sonnet 4.5 (...    2   100     98 ░░░░░░░░░░  2% 3h 32m
-Claude Opus 4.5 (Th...    2   100     98 ░░░░░░░░░░  2% 3h 32m
-GPT-OSS 120B (Medium)     2   100     98 ░░░░░░░░░░  2% 3h 32m
-Gemini 3 Pro (High)       2   100     98 ░░░░░░░░░░  2% 4h 56m
-──────────────────────────────────────────────────────────────────────
-📊 Total: 2/200 used (99% remaining)
-──────────────────────────────────────────────────────────────────────
+──────────────────────────────────────────────────────────────────────────────────────────
+Model                           Used  Limit  Left   Progress         Reset
+──────────────────────────────────────────────────────────────────────────────────────────
+Gemini 3 Pro (Low)                 2    100    98   ░░░░░░░░░░   2%  3h 48m
+Gemini 3 Flash                     0    100   100   ░░░░░░░░░░   0%  4h 59m
+Claude Sonnet 4.5                 56    100    44   █████░░░░░  56%  2h 24m
+Claude Sonnet 4.5 (Thinking)      56    100    44   █████░░░░░  56%  2h 24m
+Claude Opus 4.5 (Thinking)        56    100    44   █████░░░░░  56%  2h 24m
+GPT-OSS 120B (Medium)             56    100    44   █████░░░░░  56%  2h 24m
+Gemini 3 Pro (High)                2    100    98   ░░░░░░░░░░   2%  3h 48m
+──────────────────────────────────────────────────────────────────────────────────────────
+📊 Total: 58/300 used (80% remaining)
+──────────────────────────────────────────────────────────────────────────────────────────
 ```
 
 ### Verbose Mode
@@ -84,7 +87,11 @@ Gemini 3 Pro (High)       2   100     98 ░░░░░░░░░░  2% 4h 5
 agcheck --verbose
 ```
 
-Hiển thị debug logs chi tiết về quá trình scan, connect và fetch data.
+Hiển thị debug logs chi tiết về quá trình scan, connect và fetch data:
+- PowerShell detection process
+- CSRF token extraction
+- API endpoint calls
+- Port scanning
 
 ### Disable Cache
 
@@ -102,6 +109,16 @@ agcheck --help
 
 ## 📊 Output Explanation
 
+### Supported Models
+
+Tool hiển thị quota cho tất cả AI models trong Antigravity:
+- **Gemini 3 Pro (High/Low)** - Google Gemini models
+- **Gemini 3 Flash** - Fast Gemini model
+- **Claude Sonnet 4.5** - Anthropic Claude model
+- **Claude Sonnet 4.5 (Thinking)** - Extended thinking mode
+- **Claude Opus 4.5 (Thinking)** - Most capable Claude model
+- **GPT-OSS 120B (Medium)** - Open source GPT model
+
 ### Color Indicators
 
 - 🟢 **Green** - Còn >50% quota (healthy)
@@ -115,7 +132,9 @@ agcheck --help
 
 ### Smart Total Calculation
 
-Tool tự động detect các models dùng chung quota pool (như Claude models thường share pool) và deduplicate khi tính total để tránh đếm trùng.
+Tool tự động detect các models dùng chung quota pool dựa trên **reset time**:
+- Nếu nhiều models có cùng reset time → **shared pool** → chỉ count 1 lần
+- Ví dụ: Claude models (Sonnet, Opus, GPT-OSS) share pool → Total = 300, không phải 700
 
 ## 🛠️ Troubleshooting
 
@@ -150,31 +169,42 @@ export PATH="$HOME/.local/bin:$PATH"
 source ~/.bashrc  # hoặc source ~/.zshrc
 ```
 
-### "No valid cache found"
+### "No CSRF token"
 
-**Nguyên nhân:** Cache không tồn tại hoặc đã quá cũ (>24 giờ).
+**Nguyên nhân:** Tool không thể extract CSRF token từ process.
 
 **Giải pháp:**
-1. Mở Antigravity IDE để fetch fresh data
-2. Cache sẽ tự động được tạo sau lần fetch đầu tiên
+1. Chạy với `--verbose` để xem PowerShell output
+2. Đảm bảo có quyền truy cập process information
+3. Thử chạy terminal as Administrator
 
 ## 🏗️ Architecture
 
 ```
 antigravity_usage_checker_07012026/
-├── main.py                 # Entry point chính
-├── requirements.txt        # Dependencies
-├── setup.py                # Package setup
+├── main.py                 # Backward compatibility wrapper
+├── requirements.txt        # Dependencies (psutil, requests, colorama)
+├── setup.py                # Package setup với entry point
 ├── install.ps1             # Windows installer
 ├── install.sh              # macOS/Linux installer
 └── src/
     ├── __init__.py
+    ├── cli.py              # Main CLI entry point
     ├── utils.py            # Constants & helpers
-    ├── port_detector.py    # Detect Antigravity server
-    ├── api_client.py       # API client để fetch quota
+    ├── port_detector.py    # Detect server (PowerShell + psutil)
+    ├── api_client.py       # API client với real endpoint
     ├── formatter.py        # Display formatter với colors
     └── cache_manager.py    # Offline cache manager
 ```
+
+## 🔧 How It Works
+
+1. **Detect Language Server** - Dùng PowerShell `Get-CimInstance Win32_Process` để tìm `language_server` process
+2. **Extract Connection Info** - Parse command line để lấy `extension_server_port` và `csrf_token`
+3. **Find API Port** - Test các listening ports để tìm port respond với API
+4. **Fetch Quota** - Call `/exa.language_server_pb.LanguageServerService/GetUserStatus` endpoint
+5. **Parse Response** - Extract quota info từ `userStatus.cascadeModelConfigData.clientModelConfigs`
+6. **Display** - Format và hiển thị với colors và progress bars
 
 ## ⚠️ Disclaimer
 
@@ -184,17 +214,22 @@ Tool này **không phải là official tool** từ Google/Antigravity. Tool dự
 
 MIT License - see LICENSE file for details.
 
-## 👨‍💻 Author
-
-**ntd237**
-- Email: ntd237.work@gmail.com
-- GitHub: [@ntd237](https://github.com/ntd237)
-
 ## 🤝 Contributing
 
 Contributions, issues và feature requests đều được welcome!
 
 Repository: https://github.com/ntd237/antigravity_usage_checker_07012026
+
+## 📄 Changelog
+
+### v1.0.0 (2026-01-07)
+- ✅ Initial release
+- ✅ Real API connection với CSRF token
+- ✅ PowerShell detection for Windows
+- ✅ Smart quota pool deduplication
+- ✅ Full model names display
+- ✅ Color-coded output với progress bars
+- ✅ Offline cache support
 
 ---
 

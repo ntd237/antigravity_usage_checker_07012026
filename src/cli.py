@@ -1,7 +1,5 @@
 """
 CLI Module - Command line interface entry point
-
-Author: ntd237
 """
 
 import sys

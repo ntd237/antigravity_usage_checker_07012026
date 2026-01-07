@@ -1,7 +1,5 @@
 """
 Formatter Module - Format và display quota data với colors & progress bars
-
-Author: ntd237
 """
 
 from colorama import Fore, Back, Style, init
@@ -36,12 +34,12 @@ class QuotaFormatter:
         if from_cache and cache_age:
             print(f"{Fore.YELLOW}⚠️  Using cached data from {cache_age}{Style.RESET_ALL}")
         
-        # Separator
-        separator = "─" * 70
+        # Separator và header với fixed width
+        separator = "─" * 90
         print(separator)
         
-        # Header
-        print(f"{'Model':<25} {'Used':<6} {'Limit':<6} {'Left':<6} {'Progress':<12} {'Reset'}")
+        # Header với căn chỉnh fixed - 30 chars cho model name
+        print(f"{'Model':<30}  {'Used':>4}  {'Limit':>5}  {'Left':>4}   {'Progress':<10}      {'Reset':>6}")
         print(separator)
         
         # Print từng model
@@ -58,8 +56,8 @@ class QuotaFormatter:
     
     def _print_model_row(self, model: QuotaModel):
         """Print một row cho model"""
-        # Truncate model name nếu quá dài
-        display_name = model.model_name[:23] if len(model.model_name) > 23 else model.model_name
+        # Hiển thị full model name với fixed width 30 chars
+        display_name = model.model_name[:30] if len(model.model_name) > 30 else model.model_name
         
         # Progress bar
         progress_bar = self._create_progress_bar(model.percentage_used)
@@ -71,14 +69,14 @@ class QuotaFormatter:
         # Reset time
         reset_str = format_time_remaining(model.reset_time)
         
-        # Format row
+        # Format row với fixed column widths - căn chỉnh đều
         print(
-            f"{display_name:<25} "
-            f"{color}{model.used:>4}{Style.RESET_ALL}   "
-            f"{model.limit:>4}   "
+            f"{display_name:<30}  "
+            f"{color}{model.used:>4}{Style.RESET_ALL}  "
+            f"{model.limit:>5}  "
             f"{color}{model.remaining:>4}{Style.RESET_ALL}   "
-            f"{color}{progress_bar}{Style.RESET_ALL} {color}{model.percentage_used:>2}%{Style.RESET_ALL} "
-            f"{reset_str}"
+            f"{color}{progress_bar:<10}{Style.RESET_ALL} {color}{model.percentage_used:>3}%{Style.RESET_ALL}  "
+            f"{reset_str:>6}"
         )
     
     def _create_progress_bar(self, percentage: int) -> str:

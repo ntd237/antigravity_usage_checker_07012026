@@ -1,7 +1,5 @@
 """
 Utils module - Constants và helper functions
-
-Author: ntd237
 """
 
 import os
