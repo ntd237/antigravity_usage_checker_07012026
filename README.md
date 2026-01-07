@@ -213,24 +213,6 @@ Tool này **không phải là official tool** từ Google/Antigravity. Tool dự
 ## 📝 License
 
 MIT License - see LICENSE file for details.
-
-## 🤝 Contributing
-
-Contributions, issues và feature requests đều được welcome!
-
-Repository: https://github.com/ntd237/antigravity_usage_checker_07012026
-
-## 📄 Changelog
-
-### v1.0.0 (2026-01-07)
-- ✅ Initial release
-- ✅ Real API connection với CSRF token
-- ✅ PowerShell detection for Windows
-- ✅ Smart quota pool deduplication
-- ✅ Full model names display
-- ✅ Color-coded output với progress bars
-- ✅ Offline cache support
-
 ---
 
 ⭐ Nếu tool hữu ích, đừng quên star repo nhé!
