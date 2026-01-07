@@ -107,7 +107,7 @@ Write-Host ""
 Write-Host "✅ Verifying installation..." -ForegroundColor Yellow
 
 try {
-    $version = agusage --version 2>&1
+    $version = agcheck --version 2>&1
     Write-Host "✅ Installation successful!" -ForegroundColor Green
     Write-Host ""
     Write-Host "─────────────────────────────────────────────" -ForegroundColor Cyan
@@ -115,14 +115,14 @@ try {
     Write-Host "─────────────────────────────────────────────" -ForegroundColor Cyan
     Write-Host ""
     Write-Host "Usage:" -ForegroundColor Yellow
-    Write-Host "  agusage              Check quota" -ForegroundColor White
-    Write-Host "  agusage --verbose    Debug mode" -ForegroundColor White
-    Write-Host "  agusage --no-cache   Disable cache" -ForegroundColor White
+    Write-Host "  agcheck              Check quota" -ForegroundColor White
+    Write-Host "  agcheck --verbose    Debug mode" -ForegroundColor White
+    Write-Host "  agcheck --no-cache   Disable cache" -ForegroundColor White
     Write-Host ""
     Write-Host "GitHub: https://github.com/ntd237/antigravity_usage_checker_07012026" -ForegroundColor Cyan
     Write-Host ""
 } catch {
-    Write-Host "⚠️  Command 'agusage' not found in PATH" -ForegroundColor Yellow
+    Write-Host "⚠️  Command 'agcheck' not found in PATH" -ForegroundColor Yellow
     Write-Host "   You may need to restart your terminal or add Python Scripts to PATH" -ForegroundColor Yellow
     Write-Host ""
 }

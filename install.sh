@@ -101,7 +101,7 @@ $PYTHON_CMD -m pip install -e .
 echo ""
 echo -e "${YELLOW}✅ Verifying installation...${NC}"
 
-if command -v agusage &> /dev/null; then
+if command -v agcheck &> /dev/null; then
     echo -e "${GREEN}✅ Installation successful!${NC}"
     echo ""
     echo "─────────────────────────────────────────────"
@@ -109,14 +109,14 @@ if command -v agusage &> /dev/null; then
     echo "─────────────────────────────────────────────"
     echo ""
     echo -e "${YELLOW}Usage:${NC}"
-    echo "  agusage              Check quota"
-    echo "  agusage --verbose    Debug mode"
-    echo "  agusage --no-cache   Disable cache"
+    echo "  agcheck              Check quota"
+    echo "  agcheck --verbose    Debug mode"
+    echo "  agcheck --no-cache   Disable cache"
     echo ""
     echo -e "${CYAN}GitHub: https://github.com/ntd237/antigravity_usage_checker_07012026${NC}"
     echo ""
 else
-    echo -e "${YELLOW}⚠️  Command 'agusage' not found in PATH${NC}"
+    echo -e "${YELLOW}⚠️  Command 'agcheck' not found in PATH${NC}"
     echo -e "${YELLOW}   You may need to add Python bin directory to PATH${NC}"
     echo -e "${YELLOW}   Try: export PATH=\"\$HOME/.local/bin:\$PATH\"${NC}"
     echo ""

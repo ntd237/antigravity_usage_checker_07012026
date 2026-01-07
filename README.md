@@ -53,7 +53,7 @@ pip install -e .
 ### Basic Usage
 
 ```bash
-agusage
+agcheck
 ```
 
 **Output example:**
@@ -81,7 +81,7 @@ Gemini 3 Pro (High)       2   100     98 ░░░░░░░░░░  2% 4h 5
 ### Verbose Mode
 
 ```bash
-agusage --verbose
+agcheck --verbose
 ```
 
 Hiển thị debug logs chi tiết về quá trình scan, connect và fetch data.
@@ -89,7 +89,7 @@ Hiển thị debug logs chi tiết về quá trình scan, connect và fetch data
 ### Disable Cache
 
 ```bash
-agusage --no-cache
+agcheck --no-cache
 ```
 
 Không sử dụng cached data, luôn fetch fresh data từ server.
@@ -97,7 +97,7 @@ Không sử dụng cached data, luôn fetch fresh data từ server.
 ### Help
 
 ```bash
-agusage --help
+agcheck --help
 ```
 
 ## 📊 Output Explanation
@@ -129,7 +129,7 @@ Tool tự động detect các models dùng chung quota pool (như Claude models 
 3. Chạy với `--verbose` để xem chi tiết lỗi
 4. Nếu có cached data, tool sẽ tự động sử dụng
 
-### "Command 'agusage' not found"
+### "Command 'agcheck' not found"
 
 **Nguyên nhân:** Python Scripts directory chưa có trong PATH.
 
